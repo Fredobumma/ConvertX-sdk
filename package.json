@@ -1,0 +1,58 @@
+{
+	"name": "convertx-sdk",
+	"version": "0.1.0",
+	"description": "A typed client for the ConvertX REST API: convert files between 1000+ formats from Node, Bun, Deno or the browser.",
+	"keywords": [
+		"convertx",
+		"file-conversion",
+		"converter",
+		"ffmpeg",
+		"libreoffice",
+		"pandoc",
+		"sdk"
+	],
+	"license": "MIT",
+	"author": "Manfred Obumma <fredobumma@gmail.com>",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/fredobumma/convertx-sdk.git"
+	},
+	"homepage": "https://github.com/fredobumma/convertx-sdk#readme",
+	"bugs": "https://github.com/fredobumma/convertx-sdk/issues",
+	"type": "module",
+	"sideEffects": false,
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"default": "./dist/index.js"
+		},
+		"./node": {
+			"types": "./dist/node.d.ts",
+			"default": "./dist/node.js"
+		},
+		"./package.json": "./package.json"
+	},
+	"files": [
+		"dist",
+		"src"
+	],
+	"engines": {
+		"node": ">=22"
+	},
+	"scripts": {
+		"build": "rm -rf dist && tsc -p tsconfig.build.json",
+		"prepack": "pnpm build",
+		"typecheck": "tsc -p tsconfig.json",
+		"lint": "biome check .",
+		"format": "biome check --write .",
+		"test": "vitest run",
+		"check": "pnpm typecheck && pnpm lint && pnpm test"
+	},
+	"packageManager": "pnpm@10.5.2",
+	"devDependencies": {
+		"@biomejs/biome": "2.5.15",
+		"@types/node": "26.6.5",
+		"typescript": "7.0.2",
+		"vitest": "5.0.4"
+	}
+}
