@@ -1,5 +1,14 @@
 # convertx-sdk
 
+> **Preview: waiting for ConvertX's REST API.** This client is for the REST API proposed in [ConvertX pull request #693](https://github.com/C4illin/ConvertX/pull/693). It isn't merged or released yet, so for now the SDK only works with ConvertX built from that pull request's branch:
+>
+> ```sh
+> git clone -b feat/rest-api https://github.com/fredobumma/ConvertX.git
+> cd ConvertX && docker compose up --build
+> ```
+>
+> The API may still change in review, and this SDK will change with it, so expect breaking changes between 0.x versions. Against a ConvertX without the API, every call fails with an error that says so.
+
 A typed client for the [ConvertX](https://github.com/C4illin/ConvertX) REST API. Use it to convert files between more than a thousand formats from Node, Bun, Deno or the browser, with a ConvertX you host yourself.
 
 ```ts
@@ -11,13 +20,6 @@ const convertx = createClient({ url: 'https://convert.example.com', apiKey: 'cvx
 const pdf = await convertx.convert(await fromPath('report.docx'), { to: 'pdf' });
 await save(pdf, pdf.name); // report.pdf
 ```
-
-> **Note:** The REST API (`/api/v1`, with API keys and OpenAPI docs) is a proposed addition to ConvertX, in [pull request #693](https://github.com/C4illin/ConvertX/pull/693), and isn't in a release yet. Until it is, this client needs ConvertX built from that pull request's branch:
->
-> ```sh
-> git clone -b feat/rest-api https://github.com/fredobumma/ConvertX.git
-> cd ConvertX && docker compose up --build
-> ```
 
 ## Install
 

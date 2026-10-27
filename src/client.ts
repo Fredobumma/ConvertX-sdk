@@ -2,6 +2,9 @@ import { ConvertXError, ConvertXRequestError, type FailedRequest } from './error
 import { type Input, toFile } from './input.js';
 import type { Converter, Job, JobSummary, Target } from './types.js';
 
+/** Where ConvertX's REST API is proposed. Until it's merged and released, only that branch has it. */
+const API_PULL_REQUEST = 'https://github.com/C4illin/ConvertX/pull/693';
+
 export interface ClientOptions {
 	/** Where ConvertX runs, such as `https://convert.example.com` or `http://localhost:3000/convertx`. */
 	url: string;
@@ -151,9 +154,10 @@ export function createClient(options: ClientOptions) {
 				if (typeof parsed.error === 'string') code = parsed.error;
 				if (typeof parsed.message === 'string') message = parsed.message;
 			} catch {
-				// Not JSON: a proxy's error page, or a ConvertX without the API.
-				if (response.status === 404 && /<html/i.test(text)) {
-					message = `${url.pathname} doesn't exist. Is this a ConvertX with the REST API, and is the URL right?`;
+				// Not JSON: a ConvertX without the API answers 404 in plain text, a proxy with a page.
+				// TODO: once ConvertX releases the API, name the first version that has it instead.
+				if (response.status === 404) {
+					message = `${url.origin}${url.pathname} doesn't exist. ConvertX's REST API is proposed in ${API_PULL_REQUEST} and isn't in a release yet, so ConvertX has to run that pull request's branch. If it does, check the URL, including any WEBROOT.`;
 				}
 			}
 			throw new ConvertXError(code, message, response.status, request);

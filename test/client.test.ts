@@ -57,13 +57,16 @@ describe('errors', () => {
 	});
 
 	it('explains a ConvertX without the API', async () => {
-		const { fetch } = fakeFetch(() => new Response('<html>Not found</html>', { status: 404 }));
-		const error = await createClient({ url: 'https://example.com', apiKey: 'k', fetch })
-			.converters()
-			.catch((e) => e);
-		expect(error.message).toBe(
-			"/api/v1/converters doesn't exist. Is this a ConvertX with the REST API, and is the URL right?",
-		);
+		// A ConvertX release answers in plain text; a proxy in front of it may send a page.
+		for (const body of ['NOT_FOUND', '<html>Not found</html>']) {
+			const { fetch } = fakeFetch(() => new Response(body, { status: 404 }));
+			const error = await createClient({ url: 'https://example.com', apiKey: 'k', fetch })
+				.converters()
+				.catch((e) => e);
+			expect(error.message).toBe(
+				"https://example.com/api/v1/converters doesn't exist. ConvertX's REST API is proposed in https://github.com/C4illin/ConvertX/pull/693 and isn't in a release yet, so ConvertX has to run that pull request's branch. If it does, check the URL, including any WEBROOT.",
+			);
+		}
 	});
 
 	it('times out', async () => {

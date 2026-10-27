@@ -1,7 +1,7 @@
 {
 	"name": "convertx-sdk",
 	"version": "0.1.0",
-	"description": "A typed client for the ConvertX REST API: convert files between 1000+ formats from Node, Bun, Deno or the browser.",
+	"description": "Preview: a typed client for the REST API proposed in ConvertX pull request #693. Convert files between 1000+ formats from Node, Bun, Deno or the browser.",
 	"keywords": [
 		"convertx",
 		"file-conversion",
